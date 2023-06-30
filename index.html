@@ -5,5 +5,20 @@ set GIT_DOWNLOAD_URL=https://github.com/git-for-windows/git/releases/download/v2
 set GIT_INSTALLER_PATH=%USERPROFILE%\GitInstaller.exe
 set GIT_INSTALL_PATH=C:\Program Files\Git
 
-REM Download Git installer
-curl -L -o "%GIT_INSTALLER_PATH%" "%GIT_DOWNLOAD_URL%"
+REM Download Git installer using bitsadmin
+bitsadmin /transfer gitInstallerDownload /download /priority normal "%GIT_DOWNLOAD_URL%" "%GIT_INSTALLER_PATH%"
+
+REM Wait for the download to complete
+ping 127.0.0.1 -n 5 > nul
+
+REM Install Git silently
+start /wait "" "%GIT_INSTALLER_PATH%" /SILENT
+
+REM Configure the PATH environment variable
+setx /M PATH "%GIT_INSTALL_PATH%\bin;%GIT_INSTALL_PATH%\cmd;%PATH%"
+
+REM Verify Git installation
+git --version
+
+REM Cleanup - remove the installer
+del "%GIT_INSTALLER_PATH%"
