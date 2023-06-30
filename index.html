@@ -1,0 +1,9 @@
+@echo off
+
+REM Set environment variables
+set GIT_DOWNLOAD_URL=https://github.com/git-for-windows/git/releases/download/v2.41.0.windows.1/Git-2.41.0-32-bit.exe
+set GIT_INSTALLER_PATH=%USERPROFILE%\GitInstaller.exe
+set GIT_INSTALL_PATH=C:\Program Files\Git
+
+REM Download Git installer
+curl -L -o "%GIT_INSTALLER_PATH%" "%GIT_DOWNLOAD_URL%"
